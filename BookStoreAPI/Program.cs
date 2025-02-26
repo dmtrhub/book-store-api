@@ -1,4 +1,6 @@
 using BookStoreAPI.Database;
+using BookStoreAPI.Repositories.Abstractions;
+using BookStoreAPI.Repositories;
 using BookStoreAPI.Services;
 using BookStoreAPI.Services.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -64,6 +66,10 @@ builder.Services.AddAuthentication(x =>
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 var app = builder.Build();
 

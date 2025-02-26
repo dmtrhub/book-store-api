@@ -10,8 +10,38 @@ namespace BookStoreAPI.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>()
+            .HasOne(b => b.Author)
+            .WithMany(a => a.Books)
+            .HasForeignKey(b => b.AuthorId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Book>()
+            .HasOne(b => b.Category)
+            .WithMany(c => c.Books)
+            .HasForeignKey(b => b.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Book>()
             .Property(b => b.Price)
             .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Order>()
+            .HasOne(o => o.User)
+            .WithMany(u => u.Orders)
+            .HasForeignKey(o => o.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderItem>()
+            .HasOne(o => o.Order)
+            .WithMany(u => u.OrderItems)
+            .HasForeignKey(o => o.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderItem>()
+            .HasOne(o => o.Book)
+            .WithMany(u => u.OrderItems)
+            .HasForeignKey(o => o.BookId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Order>()
                 .Property(o => o.TotalAmount)

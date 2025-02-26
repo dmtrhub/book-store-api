@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250216214809_DefaultRole")]
-    partial class DefaultRole
+    [Migration("20250225194510_UpdateEntities")]
+    partial class UpdateEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,6 @@ namespace BookStoreAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Biography")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -57,7 +56,6 @@ namespace BookStoreAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
@@ -165,6 +163,12 @@ namespace BookStoreAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -189,7 +193,7 @@ namespace BookStoreAPI.Migrations
                     b.HasOne("BookStoreAPI.Models.Category", "Category")
                         .WithMany("Books")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -200,7 +204,7 @@ namespace BookStoreAPI.Migrations
             modelBuilder.Entity("BookStoreAPI.Models.Order", b =>
                 {
                     b.HasOne("BookStoreAPI.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -211,7 +215,7 @@ namespace BookStoreAPI.Migrations
             modelBuilder.Entity("BookStoreAPI.Models.OrderItem", b =>
                 {
                     b.HasOne("BookStoreAPI.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -232,6 +236,11 @@ namespace BookStoreAPI.Migrations
                     b.Navigation("Books");
                 });
 
+            modelBuilder.Entity("BookStoreAPI.Models.Book", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
             modelBuilder.Entity("BookStoreAPI.Models.Category", b =>
                 {
                     b.Navigation("Books");
@@ -240,6 +249,11 @@ namespace BookStoreAPI.Migrations
             modelBuilder.Entity("BookStoreAPI.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("BookStoreAPI.Models.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
