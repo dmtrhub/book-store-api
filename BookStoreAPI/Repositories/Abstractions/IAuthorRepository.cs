@@ -11,5 +11,8 @@ namespace BookStoreAPI.Repositories.Abstractions
         Task RemoveAsync(Author author);
         Task SaveChangesAsync();
         Task<Author?> GetAuthorByNameAsync(string name);
+        Task<List<Author>> SearchAuthorsByNameAsync(string name);
+        Task<List<Author>> GetAuthorsByBookAsync(string title);
+        Task<List<Author>> GetAuthorsByCategoryAsync(string name);
     }
 }

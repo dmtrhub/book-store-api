@@ -1,4 +1,4 @@
-﻿using BookStoreAPI.DTOs.Book;
+﻿using BookStoreAPI.DTOs.Books;
 using BookStoreAPI.Models;
 
 namespace BookStoreAPI.Mappings

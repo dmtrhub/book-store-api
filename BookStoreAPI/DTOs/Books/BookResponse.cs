@@ -1,6 +1,6 @@
-﻿namespace BookStoreAPI.DTOs.Book
+﻿namespace BookStoreAPI.DTOs.Books
 {
-    public record BookRequest(decimal Price)
+    public record BookResponse(Guid Id, decimal Price)
     {
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;

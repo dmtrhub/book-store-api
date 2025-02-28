@@ -1,5 +1,5 @@
 ﻿using BookStoreAPI.DTOs;
-using BookStoreAPI.DTOs.Book;
+using BookStoreAPI.DTOs.Books;
 using BookStoreAPI.Mappings;
 using BookStoreAPI.Models;
 using BookStoreAPI.Repositories.Abstractions;
@@ -14,13 +14,13 @@ namespace BookStoreAPI.Services
         public async Task<List<BookResponse>> GetAllAsync()
         {
             var books = await bookRepository.GetAllAsync();
-            return books.Select(BookMapping.ToDto).ToList();
+            return books.Select(book => book.ToDto()).ToList();
         }
 
         public async Task<BookResponse?> GetByIdAsync(Guid id)
         {
             var book = await bookRepository.GetByIdAsync(id);
-            return book is null ? null : BookMapping.ToDto(book);
+            return book is null ? null : book.ToDto();
         }
 
         public async Task<BookResponse> CreateAsync(BookRequest request)
@@ -33,7 +33,7 @@ namespace BookStoreAPI.Services
             await bookRepository.AddAsync(book);
             await bookRepository.SaveChangesAsync();
 
-            return BookMapping.ToDto(book);
+            return book.ToDto();
         }
         
         public async Task<bool> UpdateAsync(Guid id, BookRequest request)

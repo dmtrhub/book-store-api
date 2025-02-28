@@ -1,5 +1,5 @@
 ﻿using BookStoreAPI.DTOs;
-using BookStoreAPI.DTOs.Book;
+using BookStoreAPI.DTOs.Books;
 
 namespace BookStoreAPI.Services.Abstractions
 {
